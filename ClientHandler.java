@@ -66,7 +66,7 @@ public class ClientHandler implements Runnable {
                 while (sc.hasNextLine()) {
                     String naughtyWords = sc.nextLine();
                     if (messageFromClient.contains(naughtyWords)) {
-                        messageFromClientFiltered = messageFromClient.replace(naughtyWords, "*".repeat(12));;
+                        messageFromClientFiltered = messageFromClient.replace(naughtyWords, "*".repeat(naughtyWords.length()));;
                         execute3 = false;
                         break;
                     }
