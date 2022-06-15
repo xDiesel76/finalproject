@@ -51,22 +51,25 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-
         if (execute1) {
             numFileTxT = getfileNum();
             execute1 = false;
         }
 
         while (socket.isConnected()) {
+
             try {
-                boolean execute3 = true; 
+                boolean execute3 = true;
                 messageFromClient = bufferedReader.readLine();
                 FileInputStream fis = new FileInputStream("badwords.txt");
                 Scanner sc = new Scanner(fis);
+
                 while (sc.hasNextLine()) {
                     String naughtyWords = sc.nextLine();
                     if (messageFromClient.contains(naughtyWords)) {
-                        messageFromClientFiltered = messageFromClient.replace(naughtyWords, "*".repeat(naughtyWords.length()));;
+                        messageFromClientFiltered = messageFromClient.replace(naughtyWords,
+                                "*".repeat(naughtyWords.length()));
+                        ;
                         execute3 = false;
                         break;
                     }
@@ -86,7 +89,9 @@ public class ClientHandler implements Runnable {
         }
         if (execute2) {
             try {
-                FileWriter logs = new FileWriter("msglogs" + numFileTxT + ".txt", true);
+                FileWriter logs = new FileWriter("D:" + File.separator + "Development" + File.separator + "Java"
+                        + File.separator + "finalproject" + File.separator + "logs" + File.separator + "msglogs"
+                        + numFileTxT + ".txt", true);
                 for (int i = 0; i < totalLog.size(); i++) {
                     logs.write(totalLog.get(i) + "\n");
                 }
