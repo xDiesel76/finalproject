@@ -11,6 +11,8 @@ public class ClientHandler implements Runnable {
     public static boolean execute1 = true; // execute only once for all instances
     public static boolean execute2 = true; // execute only once for all instances
     public static ArrayList<String> totalLog = new ArrayList<String>();
+    public static String messageFromClientFiltered;
+    public String messageFromClient;
 
     private Socket socket;
     private BufferedReader bufferedReader;
@@ -49,7 +51,6 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        String messageFromClient;
 
         if (execute1) {
             numFileTxT = getfileNum();
@@ -58,10 +59,25 @@ public class ClientHandler implements Runnable {
 
         while (socket.isConnected()) {
             try {
+                boolean execute3 = true; 
                 messageFromClient = bufferedReader.readLine();
-                totalLog.add(messageFromClient);
-                broadcastMessage(messageFromClient);
+                FileInputStream fis = new FileInputStream("badwords.txt");
+                Scanner sc = new Scanner(fis);
+                while (sc.hasNextLine()) {
+                    String naughtyWords = sc.nextLine();
+                    if (messageFromClient.contains(naughtyWords)) {
+                        messageFromClientFiltered = messageFromClient.replace(naughtyWords, "*".repeat(12));;
+                        execute3 = false;
+                        break;
+                    }
+                }
+                if (execute3) {
+                    messageFromClientFiltered = messageFromClient;
+                }
 
+                totalLog.add(messageFromClientFiltered);
+                broadcastMessage(messageFromClientFiltered);
+                sc.close();
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
                 break;
