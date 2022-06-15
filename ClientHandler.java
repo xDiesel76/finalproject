@@ -104,8 +104,15 @@ public class ClientHandler implements Runnable {
         }
         if (execute2) {
             try {
+<<<<<<< HEAD
                 FileWriter logger = new FileWriter("D:" + File.separator + "Development" + File.separator + "Java"
                 + File.separator + "finalproject" + File.separator + "logs" + File.separator + "msglogs"
+=======
+                FileWriter logger = new FileWriter("C:" + File.separator + "Users" + File.separator + "Liamz"
+                        + File.separator + "Downloads"
+                        + File.separator + "finalproject-main" + File.separator + "finalproject-main" + File.separator
+                        + "logs" + File.separator + "msglogs"
+>>>>>>> 5e8f11e167c1fbfae5660b596b9e44fd5641fedf
                         + numFileTxT + ".txt", true);
                 for (int i = 0; i < totalLog.size(); i++) {
                     logger.write(totalLog.get(i) + "\n");
