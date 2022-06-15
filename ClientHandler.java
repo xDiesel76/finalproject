@@ -82,7 +82,7 @@ public class ClientHandler implements Runnable {
 
                 while (sc.hasNextLine()) {
                     String naughtyWords = sc.nextLine();
-                    if (messageFromClient.contains(naughtyWords)) {
+                    if (messageFromClient.toLowerCase().contains(naughtyWords.toLowerCase())) {
                         messageFromClientFiltered = messageFromClient.replace(naughtyWords,
                                 "*".repeat(naughtyWords.length()));
                         ;
@@ -139,7 +139,7 @@ public class ClientHandler implements Runnable {
 
     public void removeClientHandler() {
         clientHandlers.remove(this);
-        broadcastMessage("SERVER: " + clientUsername + " has left the chat!");
+        broadcastMessage("SERVER: " + clientUsername + " has left the chat");
     }
 
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
