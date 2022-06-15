@@ -2,6 +2,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ClientHandler implements Runnable {
 
@@ -32,6 +34,13 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    public static String getTime() {
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formattedDate = myDateObj.format(myFormatObj);
+        return formattedDate;
+    }
+
     public static int getfileNum() {
         try {
             FileInputStream fis = new FileInputStream("filenums.txt");
@@ -51,8 +60,9 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        File logs = new File("D:" + File.separator + "Development" + File.separator + "Java"
-                + File.separator + "finalproject" + File.separator + "logs");
+        File logs = new File("C:" + File.separator + "Users" + File.separator + "Liamz" + File.separator + "Downloads"
+                + File.separator + "finalproject-main" + File.separator + "finalproject-main" + File.separator
+                + "logs");
         if (!logs.exists()) {
             logs.mkdirs();
         }
@@ -84,7 +94,7 @@ public class ClientHandler implements Runnable {
                     messageFromClientFiltered = messageFromClient;
                 }
 
-                totalLog.add(messageFromClientFiltered);
+                totalLog.add("[" + getTime() + "] " + messageFromClientFiltered);
                 broadcastMessage(messageFromClientFiltered);
                 sc.close();
             } catch (IOException e) {
@@ -95,8 +105,10 @@ public class ClientHandler implements Runnable {
         }
         if (execute2) {
             try {
-                FileWriter logger = new FileWriter("D:" + File.separator + "Development" + File.separator + "Java"
-                        + File.separator + "finalproject" + File.separator + "logs" + File.separator + "msglogs"
+                FileWriter logger = new FileWriter("C:" + File.separator + "Users" + File.separator + "Liamz"
+                        + File.separator + "Downloads"
+                        + File.separator + "finalproject-main" + File.separator + "finalproject-main" + File.separator
+                        + "logs" + File.separator + "msglogs"
                         + numFileTxT + ".txt", true);
                 for (int i = 0; i < totalLog.size(); i++) {
                     logger.write(totalLog.get(i) + "\n");
@@ -111,10 +123,11 @@ public class ClientHandler implements Runnable {
     }
 
     public void broadcastMessage(String messageToSend) {
+
         for (ClientHandler clientHandler : clientHandlers) {
             try {
                 if (!clientHandler.clientUsername.equals(clientUsername)) {
-                    clientHandler.bufferedWriter.write(messageToSend);
+                    clientHandler.bufferedWriter.write("[" + getTime() + "] " + messageToSend);
                     clientHandler.bufferedWriter.newLine();
                     clientHandler.bufferedWriter.flush();
                 }
