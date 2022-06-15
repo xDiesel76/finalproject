@@ -51,6 +51,12 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
+        File logs = new File("D:" + File.separator + "Development" + File.separator + "Java"
+                + File.separator + "finalproject" + File.separator + "logs");
+        if (!logs.exists()) {
+            logs.mkdirs();
+        }
+
         if (execute1) {
             numFileTxT = getfileNum();
             execute1 = false;
@@ -89,13 +95,13 @@ public class ClientHandler implements Runnable {
         }
         if (execute2) {
             try {
-                FileWriter logs = new FileWriter("D:" + File.separator + "Development" + File.separator + "Java"
+                FileWriter logger = new FileWriter("D:" + File.separator + "Development" + File.separator + "Java"
                         + File.separator + "finalproject" + File.separator + "logs" + File.separator + "msglogs"
                         + numFileTxT + ".txt", true);
                 for (int i = 0; i < totalLog.size(); i++) {
-                    logs.write(totalLog.get(i) + "\n");
+                    logger.write(totalLog.get(i) + "\n");
                 }
-                logs.close();
+                logger.close();
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
             }
