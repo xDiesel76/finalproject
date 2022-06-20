@@ -41,6 +41,13 @@ public class ClientHandler implements Runnable {
         return formattedDate;
     }
 
+    public static String getYear() {
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = myDateObj.format(myFormatObj);
+        return formattedDate;
+    }
+
     public static int getfileNum() {
         try {
             FileInputStream fis = new FileInputStream("filenums.txt");
@@ -60,16 +67,20 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        File logs = new File("D:" + File.separator + "Development" + File.separator + "Java"
-        + File.separator + "finalproject" + File.separator + "logs");
+        File logs = new File("C:" + File.separator + "Users" + File.separator + "Liamz" + File.separator + "Downloads"
+                + File.separator + "finalproject" + File.separator + "finalproject-main" + File.separator
+                + "logs");
         if (!logs.exists()) {
             logs.mkdirs();
         }
 
         if (execute1) {
             numFileTxT = getfileNum();
+            totalLog.add("Message Log - [" + getYear() + "]");
             execute1 = false;
         }
+
+        
 
         while (socket.isConnected()) {
 
@@ -104,8 +115,10 @@ public class ClientHandler implements Runnable {
         }
         if (execute2) {
             try {
-                FileWriter logger = new FileWriter("D:" + File.separator + "Development" + File.separator + "Java"
-                + File.separator + "finalproject" + File.separator + "logs" + File.separator + "msglogs"
+                FileWriter logger = new FileWriter("C:" + File.separator + "Users" + File.separator + "Liamz"
+                        + File.separator + "Downloads"
+                        + File.separator + "finalproject" + File.separator + "finalproject-main" + File.separator
+                        + "logs" + File.separator + "msglogs"
                         + numFileTxT + ".txt", true);
                 for (int i = 0; i < totalLog.size(); i++) {
                     logger.write(totalLog.get(i) + "\n");
