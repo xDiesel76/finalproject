@@ -28,7 +28,7 @@ public class Client {
             Scanner scanner = new Scanner(System.in);
             while (socket.isConnected()) {
                 String messageToSend = scanner.nextLine();
-                bufferedWriter.write(username + ": " + messageToSend);
+                bufferedWriter.write(username + ": " + messageToSend); // shows on other clients
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
@@ -46,7 +46,7 @@ public class Client {
                 while (socket.isConnected()) {
                     try {
                         msgFromGroupChat = bufferedReader.readLine();
-                        System.out.println(msgFromGroupChat);
+                        System.out.println(msgFromGroupChat); // gets message from other clients
                     } catch (IOException e) {
                         closeEverything(socket, bufferedReader, bufferedWriter);
                     }
@@ -55,7 +55,8 @@ public class Client {
         }).start();
     }
 
-    public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+    public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) { // closes
+                                                                                                               // all
 
         try {
             if (bufferedReader != null) {
@@ -75,9 +76,10 @@ public class Client {
     public static void main(String[] args) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your username: ");
+        System.out.print("Enter your username: "); // gets username of client
         String username = scanner.nextLine();
-        Socket socket = new Socket("localhost", 1234);
+        Socket socket = new Socket("localhost", 1234); // connects to server, to join another computer/not locally you
+                                                       // have to use the machines ip and port
 
         Client client = new Client(socket, username);
         client.listenForMessage();

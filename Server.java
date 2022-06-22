@@ -10,11 +10,11 @@ public class Server {
         this.serverSocket = serverSocket;
     }
 
-    public void startServer() {
+    public void startServer() { // starts server and accepts sockets
         try {
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
-                System.out.println("Someone has connected");
+                System.out.println("Someone has connected"); // when someone joins
                 ClientHandler clientHandler = new ClientHandler(socket);
                 Thread thread = new Thread(clientHandler);
 
@@ -25,7 +25,7 @@ public class Server {
         }
     }
 
-    public void closeServerSocket() {
+    public void closeServerSocket() { // closes server and socket
         try {
             if (serverSocket != null) {
                 serverSocket.close();
